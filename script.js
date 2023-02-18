@@ -1,14 +1,28 @@
-var table = document.querySelector('table');
- var lastRow = document.createElement('tr');
- var prices = document.querySelectorAll('[data-ns-test=price]');
- let sum = 0;
- for(let i = 0; i < prices.length; i++) {
-  sum += parseInt(prices[i].textContent);
- }
- var child = document.createElement("td");
- child.setAttribute('data-ns-test', 'grandTotal');
- 
+const getSumBtn = document.createElement("button");
+getSumBtn.append("Get Total Price");
+document.body.appendChild(getSumBtn);
 
- child.textContent = sum;
- lastRow.appendChild(child);
- table.appendChild(lastRow);
+const getSum = () => {
+  getSumBtn.disabled = true;
+  const prices = document.querySelectorAll(".price");
+  let totalPrice = 0;
+  prices.forEach((price) => {
+    const value = parseInt(price.textContent);
+    if (!Number.isNaN(value)) {
+      totalPrice += value;
+    }
+  });
+  const totalPriceRow = document.createElement("tr");
+  totalPriceRow.id = "ans";
+  const totalPriceData = document.createElement("td");
+  const totalPriceAns = document.createElement("td");
+  totalPriceRow.appendChild(totalPriceData);
+  totalPriceRow.appendChild(totalPriceAns);
+  const data = `Total Price (in Rs): `;
+  totalPriceData.append(data);
+  totalPriceAns.append(`${totalPrice}`);
+  const table = document.querySelector("tbody");
+  table.appendChild(totalPriceRow);
+};
+
+getSumBtn.addEventListener("click", getSum);
